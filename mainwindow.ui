@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>647</width>
+    <height>592</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Butcher's DB</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="viewTab">
+       <attribute name="title">
+        <string>View DB</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QComboBox" name="primaryTableCombo">
+          <property name="currentText">
+           <string>Shifts</string>
+          </property>
+          <item>
+           <property name="text">
+            <string>Shifts</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Employees</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Recipes</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Ingredients</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Workplaces</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="secondaryTableCombo"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QTableView" name="primaryTableView"/>
+        </item>
+        <item row="1" column="1">
+         <widget class="QTableView" name="secondaryTableView"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="queryTab">
+       <attribute name="title">
+        <string>Query</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Query</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="lineEdit"/>
+        </item>
+        <item row="0" column="2">
+         <widget class="QPushButton" name="pushButton_3">
+          <property name="text">
+           <string>Execute</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" colspan="3">
+         <widget class="QTableView" name="tableView_3"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>647</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuAdd">
+    <property name="title">
+     <string>Add</string>
+    </property>
+    <addaction name="addShiftButton"/>
+    <addaction name="separator"/>
+    <addaction name="addEmployeeButton"/>
+    <addaction name="addWorkplaceButton"/>
+    <addaction name="separator"/>
+    <addaction name="actionRecipie"/>
+    <addaction name="actionIngredient"/>
+   </widget>
+   <addaction name="menuAdd"/>
+  </widget>
+  <action name="actionRecipie">
+   <property name="text">
+    <string>Recipe</string>
+   </property>
+  </action>
+  <action name="addEmployeeButton">
+   <property name="text">
+    <string>Employee</string>
+   </property>
+  </action>
+  <action name="addShiftButton">
+   <property name="text">
+    <string>Shift</string>
+   </property>
+  </action>
+  <action name="actionIngredient">
+   <property name="text">
+    <string>Ingredient</string>
+   </property>
+  </action>
+  <action name="addWorkplaceButton">
+   <property name="text">
+    <string>Workplace</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
