@@ -23,7 +23,9 @@ public slots:
     void addEmployeeActionTriggered();
     void addShiftActionTriggered();
     void addWorkplaceActionTriggered();
+    void addRecipeActionTriggered();
     void primaryTableComboChanged(const QString&);
+    void addIngredientTriggered();
 
 private:
     QStringList shiftSecondaryComboList, workplaceSecondaryComboList,

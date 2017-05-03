@@ -6,6 +6,11 @@ ShiftForm::ShiftForm(QWidget *parent) :
     ui(new Ui::ShiftForm)
 {
     ui->setupUi(this);
+
+    connect(ui->amountSlider, &QSlider::valueChanged,
+            ui->amountSpinBox, &QSpinBox::setValue);
+    connect(ui->amountSpinBox, SIGNAL(valueChanged(int)),
+            ui->amountSlider, SLOT(setValue(int)));
 }
 
 ShiftForm::~ShiftForm()

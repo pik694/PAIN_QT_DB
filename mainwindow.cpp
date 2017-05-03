@@ -2,6 +2,10 @@
 #include "ui_mainwindow.h"
 #include "employeeform.h"
 #include "shiftform.h"
+#include "recipeform.h"
+#include "ingredientform.h"
+#include "workplaceform.h"
+
 #include <QDebug>
 #include <exception>
 #include <QStringListModel>
@@ -33,6 +37,11 @@ MainWindow::MainWindow(QWidget *parent) :
             static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             this, &MainWindow::primaryTableComboChanged);
 
+    connect (ui->actionRecipie, &QAction::triggered,
+             this, &MainWindow::addRecipeActionTriggered);
+
+    connect(ui->actionIngredient, &QAction::triggered,
+            this, &MainWindow::addIngredientTriggered);
 
     primaryTableComboChanged(ui->primaryTableCombo->currentText());
 
@@ -57,7 +66,18 @@ void MainWindow::addShiftActionTriggered(){
 }
 
 void MainWindow::addWorkplaceActionTriggered(){
-    throw std::runtime_error("Not implemented yet");
+    WorkplaceForm workplaceForm;
+    workplaceForm.exec();
+}
+
+void MainWindow::addRecipeActionTriggered(){
+    RecipeForm recipeForm;
+    recipeForm.exec();
+}
+
+void MainWindow::addIngredientTriggered(){
+    IngredientForm ingredientForm;
+    ingredientForm.exec();
 }
 
 void MainWindow::primaryTableComboChanged(const QString& text){

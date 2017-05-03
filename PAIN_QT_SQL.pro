@@ -4,12 +4,14 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = PAIN_QT_SQL
 TEMPLATE = app
+
+QTPLUGIN += QSQLMYSQL
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked as deprecated (the exact warnings
@@ -27,13 +29,22 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     employeeform.cpp \
     shiftform.cpp \
-    database.cpp
+    database.cpp \
+    recipeform.cpp \
+    ingredientform.cpp \
+    workplaceform.cpp
 
 HEADERS  += mainwindow.h \
     employeeform.h \
     shiftform.h \
-    database.h
+    database.h \
+    recipeform.h \
+    ingredientform.h \
+    workplaceform.h
 
 FORMS    += mainwindow.ui \
     employeeform.ui \
-    shiftform.ui
+    shiftform.ui \
+    recipeform.ui \
+    ingredientform.ui \
+    workplaceform.ui
