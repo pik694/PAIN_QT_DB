@@ -4,6 +4,7 @@
 #include "shiftform.h"
 #include "recipeform.h"
 #include "ingredientform.h"
+#include "database.h"
 #include "workplaceform.h"
 
 #include <QDebug>
@@ -16,11 +17,22 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    shiftSecondaryComboList << "Employees" << "Production";
-    workplaceSecondaryComboList << "Employees" << "Shifts";
-    employeeSecondaryComboList << "Shifts";
-    ingredientSecondaryComboList << "Products";
-    productSecondaryComboList << "Shifts" << "Ingredients";
+    ui->primaryTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->primaryTableView->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    QStringListModel* primaryComboModel = new QStringListModel();
+    primaryComboModel->setStringList(Database::instance()->getTables());
+
+    ui->primaryTableCombo->setModel(primaryComboModel);
+
+
+// MARK:  Setting up combo lists
+
+       shiftSecondaryComboList << "Employees" << "Production";
+       workplaceSecondaryComboList << "Employees" << "Shifts";
+       employeeSecondaryComboList << "Shifts";
+       ingredientSecondaryComboList << "Products";
+       productSecondaryComboList << "Shifts" << "Ingredients";
 
 //MARK: Connecting signals to slots
 
@@ -43,6 +55,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionIngredient, &QAction::triggered,
             this, &MainWindow::addIngredientTriggered);
 
+    //connect(ui->primaryTableView, &QTableView::doubleClicked, this, &MainWindow::doubleClickedOnItem);
+
+
     primaryTableComboChanged(ui->primaryTableCombo->currentText());
 
 }
@@ -50,6 +65,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    Database::disconnect();
 }
 
 //MARK: SLOTS
@@ -81,6 +97,9 @@ void MainWindow::addIngredientTriggered(){
 }
 
 void MainWindow::primaryTableComboChanged(const QString& text){
+
+    Database::instance()->getPrimaryTable(ui->primaryTableView, text);
+
     //TODO: avoid memory loss
     QStringListModel* secondaryComboModel = new QStringListModel();
 
@@ -106,5 +125,7 @@ void MainWindow::primaryTableComboChanged(const QString& text){
 
 
     ui->secondaryTableCombo->setModel(secondaryComboModel);
+
+    ui->secondaryTableCombo->setDisabled(true);
 }
 

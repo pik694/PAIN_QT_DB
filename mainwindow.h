@@ -26,7 +26,7 @@ public slots:
     void addRecipeActionTriggered();
     void primaryTableComboChanged(const QString&);
     void addIngredientTriggered();
-
+    //void doubleClickedOnItem(const QModelIndex& index);
 private:
     QStringList shiftSecondaryComboList, workplaceSecondaryComboList,
             employeeSecondaryComboList, ingredientSecondaryComboList,
