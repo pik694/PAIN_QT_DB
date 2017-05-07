@@ -77,9 +77,21 @@ QSqlTableModel* Database::getTableModel(const QString& name){
         }
         return ingredientsTableModel_;
     }
-
+    else if(!name.compare("empty", Qt::CaseInsensitive)){
+        if (empty_ == nullptr){
+            empty_ = new QSqlTableModel(this, database_);
+            empty_->setTable("__invalid_table__");
+            empty_->setEditStrategy(QSqlTableModel::OnManualSubmit);
+            empty_->select();
+        }
+        return empty_;
+    }
     else {
-        throw std::runtime_error("Invalid table name");
+        QSqlTableModel* model = new QSqlTableModel(this, database_);
+        model->setTable(name);
+        model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+        model->select();
+        return model;
     }
 
 }

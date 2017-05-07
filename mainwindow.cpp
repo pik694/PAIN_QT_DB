@@ -10,6 +10,7 @@
 #include <QDebug>
 #include <exception>
 #include <QStringListModel>
+#include <QList>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -20,6 +21,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->primaryTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->primaryTableView->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->primaryTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->primaryTableView->horizontalHeader()->setStretchLastSection(true);
+
+    ui->secondaryTableView->setSelectionMode(QAbstractItemView::NoSelection);
+    ui->secondaryTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->secondaryTableView->horizontalHeader()->setStretchLastSection(true);
 
     QStringListModel* primaryComboModel = new QStringListModel();
     primaryComboModel->setStringList(Database::instance()->getTables());
@@ -29,10 +35,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
 // MARK:  Setting up combo lists
 
-       shiftSecondaryComboList_ << "Employees" << "Production";
+       shiftSecondaryComboList_ << "Employees" << "Recipes";
        workplaceSecondaryComboList_ << "Employees" << "Shifts";
        employeeSecondaryComboList_ << "Shifts";
-       ingredientSecondaryComboList_ << "Products";
+       ingredientSecondaryComboList_ << "Recipes";
        productSecondaryComboList_ << "Shifts" << "Ingredients";
 
 //MARK: Connecting signals to slots
@@ -50,13 +56,23 @@ MainWindow::MainWindow(QWidget *parent) :
             static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
             this, &MainWindow::primaryTableComboChanged);
 
+    connect(ui->secondaryTableCombo,
+            static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged),
+            this, &MainWindow::secondaryTableComboChanged);
+
     connect (ui->actionRecipie, &QAction::triggered,
              this, &MainWindow::addRecipeActionTriggered);
 
     connect(ui->actionIngredient, &QAction::triggered,
             this, &MainWindow::addIngredientTriggered);
 
-    connect(ui->primaryTableView, &QTableView::doubleClicked, this, &MainWindow::doubleClickedOnItemPrimaryTable);
+    connect(ui->primaryTableView, &QTableView::doubleClicked,
+            this, &MainWindow::doubleClickedOnItemPrimaryTable);
+
+    connect(ui->primaryTableView, &QTableView::clicked,
+            this, &MainWindow::clickedPrimaryTable);
+
+
 
 
     primaryTableComboChanged(ui->primaryTableCombo->currentText());
@@ -128,7 +144,32 @@ void MainWindow::primaryTableComboChanged(const QString& text){
 
     ui->secondaryTableCombo->setModel(secondaryComboModel);
     ui->secondaryTableCombo->setDisabled(true);
+    ui->secondaryTableView->setModel(Database::instance()->getTableModel("empty"));
 }
+
+void MainWindow::secondaryTableComboChanged(const QString& text){
+    if (ui->secondaryTableCombo->isEnabled())
+        ui->secondaryTableView->setModel(Database::instance()->getTableModel(text));
+}
+
+
+void MainWindow::clickedPrimaryTable(const QModelIndex&){
+
+    if (ui->primaryTableView->selectionModel()->selectedIndexes().empty()){
+        ui->secondaryTableCombo->setDisabled(true);
+        ui->secondaryTableView->setModel(Database::instance()->getTableModel("empty"));
+    }
+    else{
+        ui->secondaryTableCombo->setDisabled(false);
+        ui->secondaryTableView->setModel(Database::instance()->getTableModel(ui->secondaryTableCombo->currentText()));
+    }
+
+}
+
+
+
+
+
 
 void MainWindow::doubleClickedOnItemPrimaryTable(const QModelIndex &index){
 
@@ -160,7 +201,8 @@ void MainWindow::doubleClickedOnItemPrimaryTable(const QModelIndex &index){
         throw std::out_of_range("Invalid combo item : " + text.toStdString());
     }
 
-
-
-
 }
+
+
+
+

@@ -59,6 +59,7 @@ private:
     QSqlTableModel* recipesTableModel_;
     QSqlRelationalTableModel* workplacesTableModel_;
     QSqlRelationalTableModel* shiftsTableModel_;
+    QSqlTableModel* empty_;
 
 
 };
