@@ -41,6 +41,9 @@ public:
 
     QSqlTableModel* getTableModel(const QString& name);
 
+    void commit(){
+        database_.commit();
+    }
 
 
 private:

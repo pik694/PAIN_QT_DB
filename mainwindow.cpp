@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->primaryTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->primaryTableView->setSelectionMode(QAbstractItemView::SingleSelection);
-    ui->primaryTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    //ui->primaryTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->primaryTableView->horizontalHeader()->setStretchLastSection(true);
 
     ui->secondaryTableView->setSelectionMode(QAbstractItemView::NoSelection);
@@ -74,7 +74,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-
+    ui->primaryTableView->setModel(Database::instance()->getTableModel("employees"));
     primaryTableComboChanged(ui->primaryTableCombo->currentText());
 
 }
@@ -115,6 +115,9 @@ void MainWindow::addIngredientTriggered(){
 
 void MainWindow::primaryTableComboChanged(const QString& text){
     //TODO: fix this method
+
+    dynamic_cast<QSqlTableModel*>(ui->primaryTableView->model())->submitAll();
+    Database::instance()->commit();
 
     ui->primaryTableView->setModel(Database::instance()->getTableModel(text));
 

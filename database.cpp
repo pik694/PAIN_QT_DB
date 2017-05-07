@@ -35,7 +35,11 @@ QSqlTableModel* Database::getTableModel(const QString& name){
         if (employeesTableModel_ == nullptr){
             employeesTableModel_ = new QSqlTableModel(this, database_);
             employeesTableModel_->setTable(name);
-            employeesTableModel_->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+            // TEST
+            employeesTableModel_->setEditStrategy(QSqlTableModel::OnFieldChange);
+            //employeesTableModel_->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
             employeesTableModel_->select();
         }
         return employeesTableModel_;
