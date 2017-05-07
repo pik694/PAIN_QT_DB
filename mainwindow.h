@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QStringListModel>
+#include <QSqlRecord>
+#include <QSqlField>
 
 namespace Ui {
 class MainWindow;
@@ -26,7 +28,8 @@ public slots:
     void addRecipeActionTriggered();
     void primaryTableComboChanged(const QString&);
     void addIngredientTriggered();
-    //void doubleClickedOnItem(const QModelIndex& index);
+    void doubleClickedOnItemPrimaryTable(const QModelIndex& index);
+
 private:
     QStringList shiftSecondaryComboList, workplaceSecondaryComboList,
             employeeSecondaryComboList, ingredientSecondaryComboList,

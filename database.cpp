@@ -25,11 +25,17 @@ Database::~Database(){
 
 void Database::getPrimaryTable(QTableView* view, const QString &name){
 
-     QSqlTableModel* model =  new QSqlTableModel(nullptr, database_);
+      QSqlRelationalTableModel* model =  new QSqlRelationalTableModel(nullptr, database_);
 
        model->setTable(name);
-       model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+       model->setEditStrategy(QSqlTableModel::OnFieldChange);
+
+       if (name == "Workplaces"){
+           model->setRelation(model->fieldIndex("manager"), QSqlRelation("employees", "pesel", "surname"));
+       }
+
        model->select();
+
        view->setModel(model);
        view->resizeColumnsToContents();
 

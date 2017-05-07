@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->primaryTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->primaryTableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->primaryTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     QStringListModel* primaryComboModel = new QStringListModel();
     primaryComboModel->setStringList(Database::instance()->getTables());
@@ -55,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionIngredient, &QAction::triggered,
             this, &MainWindow::addIngredientTriggered);
 
-    //connect(ui->primaryTableView, &QTableView::doubleClicked, this, &MainWindow::doubleClickedOnItem);
+    connect(ui->primaryTableView, &QTableView::doubleClicked, this, &MainWindow::doubleClickedOnItemPrimaryTable);
 
 
     primaryTableComboChanged(ui->primaryTableCombo->currentText());
@@ -71,8 +72,8 @@ MainWindow::~MainWindow()
 //MARK: SLOTS
 void MainWindow::addEmployeeActionTriggered(){
 
-    EmployeeForm employeeForm;
-    employeeForm.exec();
+   // EmployeeForm employeeForm;
+   // employeeForm.exec();
 }
 
 void MainWindow::addShiftActionTriggered(){
@@ -82,8 +83,8 @@ void MainWindow::addShiftActionTriggered(){
 }
 
 void MainWindow::addWorkplaceActionTriggered(){
-    WorkplaceForm workplaceForm;
-    workplaceForm.exec();
+   // WorkplaceForm workplaceForm;
+    //workplaceForm.exec();
 }
 
 void MainWindow::addRecipeActionTriggered(){
@@ -125,7 +126,36 @@ void MainWindow::primaryTableComboChanged(const QString& text){
 
 
     ui->secondaryTableCombo->setModel(secondaryComboModel);
-
     ui->secondaryTableCombo->setDisabled(true);
 }
 
+void MainWindow::doubleClickedOnItemPrimaryTable(const QModelIndex &index){
+
+    QString text = ui->primaryTableCombo->currentText();
+
+
+
+    if (text == "Shifts"){
+    }
+    else if (text == "Employees"){
+        EmployeeForm employeeForm (dynamic_cast<QSqlTableModel*>(ui->primaryTableView->model()), index);
+        employeeForm.exec();
+    }
+    else if(text == "Recipes"){
+
+    }
+    else if (text == "Ingredients"){
+
+    }
+    else if (text == "Workplaces"){
+        WorkplaceForm workplaceForm (dynamic_cast<QSqlRelationalTableModel*> (ui->primaryTableView->model()), index);
+        workplaceForm.exec();
+    }
+    else {
+        throw std::out_of_range("Invalid combo item : " + text.toStdString());
+    }
+
+
+
+
+}
