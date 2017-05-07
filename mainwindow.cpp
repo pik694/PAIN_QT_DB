@@ -157,7 +157,6 @@ void MainWindow::clickedPrimaryTable(const QModelIndex&){
 
     if (ui->primaryTableView->selectionModel()->selectedIndexes().empty()){
         ui->secondaryTableCombo->setDisabled(true);
-        ui->secondaryTableView->setModel(Database::instance()->getTableModel("empty"));
     }
     else{
         ui->secondaryTableCombo->setDisabled(false);

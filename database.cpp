@@ -8,7 +8,8 @@ Database::Database():
     ingredientsTableModel_(nullptr),
     recipesTableModel_(nullptr),
     workplacesTableModel_(nullptr),
-    shiftsTableModel_(nullptr)
+    shiftsTableModel_(nullptr),
+    empty_(nullptr)
 {
 
     database_.setHostName("ora3.elka.pw.edu.pl");
@@ -80,7 +81,7 @@ QSqlTableModel* Database::getTableModel(const QString& name){
     else if(!name.compare("empty", Qt::CaseInsensitive)){
         if (empty_ == nullptr){
             empty_ = new QSqlTableModel(this, database_);
-            empty_->setTable("__invalid_table__");
+            empty_->setTable(name);
             empty_->setEditStrategy(QSqlTableModel::OnManualSubmit);
             empty_->select();
         }
