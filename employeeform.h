@@ -20,7 +20,7 @@ public:
 
 private:
     Ui::EmployeeForm *ui;
-    QDataWidgetMapper* mapper;
+    QDataWidgetMapper* mapper_;
 };
 
 #endif // EMPLOYEEFORM_H

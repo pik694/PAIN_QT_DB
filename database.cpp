@@ -34,7 +34,7 @@ QSqlTableModel* Database::getTableModel(const QString& name){
         if (employeesTableModel_ == nullptr){
             employeesTableModel_ = new QSqlTableModel(this, database_);
             employeesTableModel_->setTable(name);
-            employeesTableModel_->setEditStrategy(QSqlTableModel::OnFieldChange);
+            employeesTableModel_->setEditStrategy(QSqlTableModel::OnManualSubmit);
             employeesTableModel_->select();
         }
         return employeesTableModel_;
@@ -43,7 +43,7 @@ QSqlTableModel* Database::getTableModel(const QString& name){
         if (shiftsTableModel_ == nullptr){
             shiftsTableModel_ = new QSqlRelationalTableModel(this, database_);
             shiftsTableModel_->setTable(name);
-            shiftsTableModel_->setEditStrategy(QSqlTableModel::OnFieldChange);
+            shiftsTableModel_->setEditStrategy(QSqlTableModel::OnManualSubmit);
             shiftsTableModel_->setRelation(shiftsTableModel_->fieldIndex("workplace_id"), QSqlRelation("workplaces", "workplace_id", "workplace_id"));
             shiftsTableModel_->select();
         }
@@ -53,7 +53,7 @@ QSqlTableModel* Database::getTableModel(const QString& name){
         if (workplacesTableModel_ == nullptr){
             workplacesTableModel_= new QSqlRelationalTableModel(this, database_);
             workplacesTableModel_->setTable(name);
-            workplacesTableModel_->setEditStrategy(QSqlTableModel::OnFieldChange);
+            workplacesTableModel_->setEditStrategy(QSqlTableModel::OnManualSubmit);
             workplacesTableModel_->setRelation(workplacesTableModel_->fieldIndex("manager"), QSqlRelation("employees", "pesel", "surname"));
             workplacesTableModel_->select();
         }
@@ -63,7 +63,7 @@ QSqlTableModel* Database::getTableModel(const QString& name){
         if (recipesTableModel_ == nullptr){
             recipesTableModel_ = new QSqlTableModel(this, database_);
             recipesTableModel_->setTable(name);
-            recipesTableModel_->setEditStrategy(QSqlTableModel::OnFieldChange);
+            recipesTableModel_->setEditStrategy(QSqlTableModel::OnManualSubmit);
             recipesTableModel_->select();
         }
         return recipesTableModel_;
@@ -72,7 +72,7 @@ QSqlTableModel* Database::getTableModel(const QString& name){
         if (ingredientsTableModel_ == nullptr){
             ingredientsTableModel_ = new QSqlTableModel(this, database_);
             ingredientsTableModel_->setTable(name);
-            ingredientsTableModel_->setEditStrategy(QSqlTableModel::OnFieldChange);
+            ingredientsTableModel_->setEditStrategy(QSqlTableModel::OnManualSubmit);
             ingredientsTableModel_->select();
         }
         return ingredientsTableModel_;

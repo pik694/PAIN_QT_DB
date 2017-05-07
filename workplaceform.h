@@ -15,13 +15,15 @@ class WorkplaceForm : public QDialog
     Q_OBJECT
 
 public:
-    explicit WorkplaceForm(QSqlRelationalTableModel* model, const QModelIndex& index,  QWidget *parent = 0);
+    explicit WorkplaceForm(const QModelIndex& index,  QWidget *parent = 0);
+    WorkplaceForm(QWidget* parent = nullptr);
+
     ~WorkplaceForm();
 
 private:
     Ui::WorkplaceForm *ui;
 
-    QDataWidgetMapper* mapper;
+    QDataWidgetMapper* mapper_;
 };
 
 #endif // WORKPLACEFORM_H

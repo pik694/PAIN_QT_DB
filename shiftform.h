@@ -21,7 +21,7 @@ public:
 private:
     Ui::ShiftForm *ui;
 
-    QDataWidgetMapper* mapper;
+    QDataWidgetMapper* mapper_;
 };
 
 #endif // SHIFTFORM_H

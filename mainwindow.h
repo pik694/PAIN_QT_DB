@@ -31,9 +31,9 @@ public slots:
     void doubleClickedOnItemPrimaryTable(const QModelIndex& index);
 
 private:
-    QStringList shiftSecondaryComboList, workplaceSecondaryComboList,
-            employeeSecondaryComboList, ingredientSecondaryComboList,
-            productSecondaryComboList;
+    QStringList shiftSecondaryComboList_, workplaceSecondaryComboList_,
+            employeeSecondaryComboList_, ingredientSecondaryComboList_,
+            productSecondaryComboList_;
 
 };
 

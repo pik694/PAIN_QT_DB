@@ -6,7 +6,7 @@
 EmployeeForm::EmployeeForm(const QModelIndex& index, QWidget *parent) :
     EmployeeForm(parent)
 {
-    mapper->setCurrentIndex(index.row());
+    mapper_->setCurrentIndex(index.row());
 }
 
 EmployeeForm::EmployeeForm(QWidget *parent):
@@ -17,12 +17,12 @@ EmployeeForm::EmployeeForm(QWidget *parent):
     ui->setupUi(this);
 
     QSqlTableModel* model = Database::instance()->getTableModel("employees");
-    mapper = new QDataWidgetMapper(this);
+    mapper_ = new QDataWidgetMapper(this);
 
-    mapper->setModel(model);
-    mapper->addMapping(ui->nameField, model->fieldIndex("name"));
-    mapper->addMapping(ui->surnameField, model->fieldIndex("surname"));
-    mapper->addMapping(ui->PESELField, model->fieldIndex("pesel"));
+    mapper_->setModel(model);
+    mapper_->addMapping(ui->nameField, model->fieldIndex("name"));
+    mapper_->addMapping(ui->surnameField, model->fieldIndex("surname"));
+    mapper_->addMapping(ui->PESELField, model->fieldIndex("pesel"));
 
 }
 

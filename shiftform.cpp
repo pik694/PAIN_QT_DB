@@ -18,16 +18,16 @@ ShiftForm::ShiftForm(QWidget *parent) :
 
 
     QSqlRelationalTableModel* model = dynamic_cast<QSqlRelationalTableModel*>(Database::instance()->getTableModel("shifts"));
-    mapper = new QDataWidgetMapper(this);
+    mapper_ = new QDataWidgetMapper(this);
 
     QSqlTableModel* relationalModel = model->relationModel(model->fieldIndex("workplace_id"));
     ui->workplaceComboBox->setModel(relationalModel);
     ui->workplaceComboBox->setModelColumn(relationalModel->fieldIndex("workplace_id"));
 
-    mapper->setModel(model);
-    mapper->setItemDelegate(new QSqlRelationalDelegate(this));
-    mapper->addMapping(ui->dateEdit, model->fieldIndex("date_of_shift"));
-    mapper->addMapping(ui->workplaceComboBox, model->fieldIndex("workplace_id"));
+    mapper_->setModel(model);
+    mapper_->setItemDelegate(new QSqlRelationalDelegate(this));
+    mapper_->addMapping(ui->dateEdit, model->fieldIndex("date_of_shift"));
+    mapper_->addMapping(ui->workplaceComboBox, model->fieldIndex("workplace_id"));
 
 
     ui->employeeCombo->setModel(Database::instance()->getTableModel("employees"));
@@ -40,7 +40,7 @@ ShiftForm::ShiftForm(QWidget *parent) :
 ShiftForm::ShiftForm(const QModelIndex& index, QWidget* parent):
     ShiftForm(parent)
 {
-    mapper->setCurrentIndex(index.row());
+    mapper_->setCurrentIndex(index.row());
 }
 
 ShiftForm::~ShiftForm()

@@ -1,35 +1,35 @@
 #include "workplaceform.h"
 #include "ui_workplaceform.h"
 
+#include <database.h>
 
-WorkplaceForm::WorkplaceForm(QSqlRelationalTableModel* model, const QModelIndex& index,  QWidget *parent):
+WorkplaceForm::WorkplaceForm(QWidget *parent):
     QDialog(parent),
     ui(new Ui::WorkplaceForm)
 {
     ui->setupUi(this);
 
+    QSqlRelationalTableModel* model = dynamic_cast<QSqlRelationalTableModel*>(Database::instance()->getTableModel("workplaces"));
     QSqlTableModel* relationalModel = model->relationModel(model->fieldIndex("surname"));
     ui->managerComboBox->setModel(relationalModel);
     ui->managerComboBox->setModelColumn(relationalModel->fieldIndex("surname"));
 
-    mapper = new QDataWidgetMapper (this);
+    mapper_ = new QDataWidgetMapper (this);
 
-    mapper->setModel(model);
-    mapper->setItemDelegate(new QSqlRelationalDelegate(this));
-    mapper->addMapping(ui->managerComboBox, model->fieldIndex("surname"));
-    mapper->addMapping(ui->workplaceNameLineEdit, model->fieldIndex("workplace_id"));
-
-    mapper->setCurrentIndex(index.row());
-
+    mapper_->setModel(model);
+    mapper_->setItemDelegate(new QSqlRelationalDelegate(this));
+    mapper_->addMapping(ui->managerComboBox, model->fieldIndex("surname"));
+    mapper_->addMapping(ui->workplaceNameLineEdit, model->fieldIndex("workplace_id"));
 
 }
+WorkplaceForm::WorkplaceForm(const QModelIndex& index,  QWidget *parent):
+    WorkplaceForm(parent)
+{
+        mapper_->setCurrentIndex(index.row());
+}
+
 
 WorkplaceForm::~WorkplaceForm()
 {
-
-    (dynamic_cast<QSqlTableModel*> (mapper->model()))->submitAll();
     delete ui;
-
-
-
 }

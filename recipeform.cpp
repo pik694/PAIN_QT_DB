@@ -3,6 +3,10 @@
 
 #include <QSlider>
 #include <QSpinBox>
+#include <QSqlTableModel>
+
+#include "database.h"
+
 
 RecipeForm::RecipeForm(QWidget *parent) :
     QDialog(parent),
@@ -14,9 +18,23 @@ RecipeForm::RecipeForm(QWidget *parent) :
    connect(ui->amountSlider, &QSlider::valueChanged,
            ui->amountSpin, &QSpinBox::setValue);
 
-     connect(ui->amountSpin, SIGNAL(valueChanged(int)),
-             ui->amountSlider, SLOT(setValue(int)));
+   connect(ui->amountSpin, SIGNAL(valueChanged(int)),
+           ui->amountSlider, SLOT(setValue(int)));
 
+
+   QSqlTableModel* model = Database::instance()->getTableModel("recipes");
+   mapper_ = new QDataWidgetMapper(this);
+
+   mapper_->setModel(model);
+   mapper_->addMapping(ui->recipeNameTextField, model->fieldIndex("name"));
+
+   ui->ingredientCombo->setModel(Database::instance()->getTableModel("ingredients"));
+}
+
+RecipeForm::RecipeForm(const QModelIndex& index, QWidget* parent):
+    RecipeForm(parent)
+{
+    mapper_->setCurrentIndex(index.row());
 }
 
 RecipeForm::~RecipeForm()

@@ -29,11 +29,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
 // MARK:  Setting up combo lists
 
-       shiftSecondaryComboList << "Employees" << "Production";
-       workplaceSecondaryComboList << "Employees" << "Shifts";
-       employeeSecondaryComboList << "Shifts";
-       ingredientSecondaryComboList << "Products";
-       productSecondaryComboList << "Shifts" << "Ingredients";
+       shiftSecondaryComboList_ << "Employees" << "Production";
+       workplaceSecondaryComboList_ << "Employees" << "Shifts";
+       employeeSecondaryComboList_ << "Shifts";
+       ingredientSecondaryComboList_ << "Products";
+       productSecondaryComboList_ << "Shifts" << "Ingredients";
 
 //MARK: Connecting signals to slots
 
@@ -78,23 +78,23 @@ void MainWindow::addEmployeeActionTriggered(){
 
 void MainWindow::addShiftActionTriggered(){
 
-//    ShiftForm shiftForm;
-//    shiftForm.exec();
+    ShiftForm shiftForm;
+    shiftForm.exec();
 }
 
 void MainWindow::addWorkplaceActionTriggered(){
-   // WorkplaceForm workplaceForm;
-    //workplaceForm.exec();
+    WorkplaceForm workplaceForm;
+    workplaceForm.exec();
 }
 
 void MainWindow::addRecipeActionTriggered(){
-//    RecipeForm recipeForm;
-//    recipeForm.exec();
+    RecipeForm recipeForm;
+    recipeForm.exec();
 }
 
 void MainWindow::addIngredientTriggered(){
-//    IngredientForm ingredientForm;
-//    ingredientForm.exec();
+    IngredientForm ingredientForm;
+    ingredientForm.exec();
 }
 
 void MainWindow::primaryTableComboChanged(const QString& text){
@@ -106,20 +106,20 @@ void MainWindow::primaryTableComboChanged(const QString& text){
     QStringListModel* secondaryComboModel = new QStringListModel(this);
 
     if (text == "Shifts"){
-       secondaryComboModel->setStringList(shiftSecondaryComboList);
+       secondaryComboModel->setStringList(shiftSecondaryComboList_);
     }
     else if (text == "Employees"){
-       secondaryComboModel->setStringList(employeeSecondaryComboList);
+       secondaryComboModel->setStringList(employeeSecondaryComboList_);
 
     }
     else if(text == "Recipes"){
-        secondaryComboModel->setStringList(productSecondaryComboList);
+        secondaryComboModel->setStringList(productSecondaryComboList_);
     }
     else if (text == "Ingredients"){
-        secondaryComboModel->setStringList(ingredientSecondaryComboList);
+        secondaryComboModel->setStringList(ingredientSecondaryComboList_);
     }
     else if (text == "Workplaces"){
-        secondaryComboModel->setStringList(workplaceSecondaryComboList);
+        secondaryComboModel->setStringList(workplaceSecondaryComboList_);
     }
     else {
         throw std::out_of_range("Invalid combo item : " + text.toStdString());
@@ -145,13 +145,15 @@ void MainWindow::doubleClickedOnItemPrimaryTable(const QModelIndex &index){
         employeeForm.exec();
     }
     else if(text == "Recipes"){
-
+        RecipeForm recipeForm (index);
+        recipeForm.exec();
     }
     else if (text == "Ingredients"){
-
+        IngredientForm ingredientForm (index);
+        ingredientForm.exec();
     }
     else if (text == "Workplaces"){
-        WorkplaceForm workplaceForm (dynamic_cast<QSqlRelationalTableModel*> (ui->primaryTableView->model()), index);
+        WorkplaceForm workplaceForm (index);
         workplaceForm.exec();
     }
     else {
