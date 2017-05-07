@@ -98,11 +98,12 @@ void MainWindow::addIngredientTriggered(){
 }
 
 void MainWindow::primaryTableComboChanged(const QString& text){
+    //TODO: fix this method
 
-    Database::instance()->getPrimaryTable(ui->primaryTableView, text);
+    ui->primaryTableView->setModel(Database::instance()->getTableModel(text));
 
     //TODO: avoid memory loss
-    QStringListModel* secondaryComboModel = new QStringListModel();
+    QStringListModel* secondaryComboModel = new QStringListModel(this);
 
     if (text == "Shifts"){
        secondaryComboModel->setStringList(shiftSecondaryComboList);
@@ -136,7 +137,7 @@ void MainWindow::doubleClickedOnItemPrimaryTable(const QModelIndex &index){
 
 
     if (text == "Shifts"){
-        ShiftForm shiftForm (dynamic_cast<QSqlRelationalTableModel*>(ui->primaryTableView->model()), index);
+        ShiftForm shiftForm (index);
         shiftForm.exec();
     }
     else if (text == "Employees"){

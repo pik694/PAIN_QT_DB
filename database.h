@@ -12,7 +12,7 @@
 #include <QDebug>
 
 
-class Database
+class Database : public QObject
 {
 public:
     static Database* instance(){
@@ -39,9 +39,7 @@ public:
         return database_.exec(query);
     }
 
-    void getPrimaryTable(QTableView* view,const QString& name);
-
-    QSqlTableModel* getTableModel(const QString& name, QObject* parent = nullptr);
+    QSqlTableModel* getTableModel(const QString& name);
 
 
 
@@ -52,10 +50,16 @@ private:
     ~Database();
 
     static Database* instance_;
+
 // Attributes
     QSqlDatabase database_;
 
-// Method
+    QSqlTableModel* employeesTableModel_;
+    QSqlTableModel* ingredientsTableModel_;
+    QSqlTableModel* recipesTableModel_;
+    QSqlRelationalTableModel* workplacesTableModel_;
+    QSqlRelationalTableModel* shiftsTableModel_;
+
 
 };
 

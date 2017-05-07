@@ -14,8 +14,8 @@ class ShiftForm : public QDialog
     Q_OBJECT
 
 public:
-    explicit ShiftForm(QSqlRelationalTableModel* model, QWidget *parent = 0);
-    ShiftForm(QSqlRelationalTableModel* model, const QModelIndex& index, QWidget *parent = nullptr);
+    explicit ShiftForm(QWidget *parent = nullptr);
+    ShiftForm(const QModelIndex& index, QWidget* parent = nullptr);
     ~ShiftForm();
 
 private:

@@ -4,7 +4,7 @@
 #include <QSqlRelationalDelegate>
 #include <database.h>
 
-ShiftForm::ShiftForm(QSqlRelationalTableModel* model, QWidget *parent) :
+ShiftForm::ShiftForm(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ShiftForm)
 {
@@ -15,6 +15,9 @@ ShiftForm::ShiftForm(QSqlRelationalTableModel* model, QWidget *parent) :
     connect(ui->amountSpinBox, SIGNAL(valueChanged(int)),
             ui->amountSlider, SLOT(setValue(int)));
 
+
+
+    QSqlRelationalTableModel* model = dynamic_cast<QSqlRelationalTableModel*>(Database::instance()->getTableModel("shifts"));
     mapper = new QDataWidgetMapper(this);
 
     QSqlTableModel* relationalModel = model->relationModel(model->fieldIndex("workplace_id"));
@@ -27,15 +30,15 @@ ShiftForm::ShiftForm(QSqlRelationalTableModel* model, QWidget *parent) :
     mapper->addMapping(ui->workplaceComboBox, model->fieldIndex("workplace_id"));
 
 
-    ui->employeeCombo->setModel(Database::instance()->getTableModel("employees", this));
+    ui->employeeCombo->setModel(Database::instance()->getTableModel("employees"));
     ui->employeeCombo->setModelColumn(2);
-    ui->reciepeCombo->setModel(Database::instance()->getTableModel("recipes", this));
+    ui->reciepeCombo->setModel(Database::instance()->getTableModel("recipes"));
 
 
 }
 
-ShiftForm::ShiftForm(QSqlRelationalTableModel* model, const QModelIndex& index, QWidget* parent):
-    ShiftForm(model, parent)
+ShiftForm::ShiftForm(const QModelIndex& index, QWidget* parent):
+    ShiftForm(parent)
 {
     mapper->setCurrentIndex(index.row());
 }
