@@ -14,7 +14,8 @@ class EmployeeForm : public QDialog
     Q_OBJECT
 
 public:
-    explicit EmployeeForm(QSqlTableModel* model, const QModelIndex& index,  QWidget *parent = 0);
+    explicit EmployeeForm(QWidget *parent = 0);
+    EmployeeForm(const QModelIndex& indec, QWidget* parent = nullptr);
     ~EmployeeForm();
 
 private:

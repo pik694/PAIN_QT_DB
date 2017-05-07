@@ -72,14 +72,14 @@ MainWindow::~MainWindow()
 //MARK: SLOTS
 void MainWindow::addEmployeeActionTriggered(){
 
-   // EmployeeForm employeeForm;
-   // employeeForm.exec();
+    EmployeeForm employeeForm;
+    employeeForm.exec();
 }
 
 void MainWindow::addShiftActionTriggered(){
 
-    ShiftForm shiftForm;
-    shiftForm.exec();
+//    ShiftForm shiftForm;
+//    shiftForm.exec();
 }
 
 void MainWindow::addWorkplaceActionTriggered(){
@@ -88,13 +88,13 @@ void MainWindow::addWorkplaceActionTriggered(){
 }
 
 void MainWindow::addRecipeActionTriggered(){
-    RecipeForm recipeForm;
-    recipeForm.exec();
+//    RecipeForm recipeForm;
+//    recipeForm.exec();
 }
 
 void MainWindow::addIngredientTriggered(){
-    IngredientForm ingredientForm;
-    ingredientForm.exec();
+//    IngredientForm ingredientForm;
+//    ingredientForm.exec();
 }
 
 void MainWindow::primaryTableComboChanged(const QString& text){
@@ -136,9 +136,11 @@ void MainWindow::doubleClickedOnItemPrimaryTable(const QModelIndex &index){
 
 
     if (text == "Shifts"){
+        ShiftForm shiftForm (dynamic_cast<QSqlRelationalTableModel*>(ui->primaryTableView->model()), index);
+        shiftForm.exec();
     }
     else if (text == "Employees"){
-        EmployeeForm employeeForm (dynamic_cast<QSqlTableModel*>(ui->primaryTableView->model()), index);
+        EmployeeForm employeeForm (index);
         employeeForm.exec();
     }
     else if(text == "Recipes"){

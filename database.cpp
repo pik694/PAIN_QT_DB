@@ -25,20 +25,30 @@ Database::~Database(){
 
 void Database::getPrimaryTable(QTableView* view, const QString &name){
 
-      QSqlRelationalTableModel* model =  new QSqlRelationalTableModel(nullptr, database_);
-
-       model->setTable(name);
-       model->setEditStrategy(QSqlTableModel::OnFieldChange);
-
-       if (name == "Workplaces"){
-           model->setRelation(model->fieldIndex("manager"), QSqlRelation("employees", "pesel", "surname"));
-       }
-
-       model->select();
+       QSqlTableModel* model = getTableModel(name, view);
 
        view->setModel(model);
        view->resizeColumnsToContents();
 
+}
+
+QSqlTableModel* Database::getTableModel(const QString& name, QObject* parent){
+
+    QSqlRelationalTableModel* model =  new QSqlRelationalTableModel(parent, database_);
+
+     model->setTable(name);
+     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+     if (name == "Workplaces"){
+         model->setRelation(model->fieldIndex("manager"), QSqlRelation("employees", "pesel", "surname"));
+     }
+     else if (name == "Shifts"){
+         model->setRelation(model->fieldIndex("workplace_id"), QSqlRelation("workplaces", "workplace_id", "workplace_id"));
+     }
+
+     model->select();
+
+     return model;
 }
 
 

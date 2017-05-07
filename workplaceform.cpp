@@ -1,14 +1,16 @@
 #include "workplaceform.h"
 #include "ui_workplaceform.h"
 
+
 WorkplaceForm::WorkplaceForm(QSqlRelationalTableModel* model, const QModelIndex& index,  QWidget *parent):
     QDialog(parent),
     ui(new Ui::WorkplaceForm)
 {
     ui->setupUi(this);
 
-    ui->managerComboBox->setModel(model);
-    ui->managerComboBox->setModelColumn(model->fieldIndex("surname"));
+    QSqlTableModel* relationalModel = model->relationModel(model->fieldIndex("surname"));
+    ui->managerComboBox->setModel(relationalModel);
+    ui->managerComboBox->setModelColumn(relationalModel->fieldIndex("surname"));
 
     mapper = new QDataWidgetMapper (this);
 
@@ -24,7 +26,10 @@ WorkplaceForm::WorkplaceForm(QSqlRelationalTableModel* model, const QModelIndex&
 
 WorkplaceForm::~WorkplaceForm()
 {
+
+    (dynamic_cast<QSqlTableModel*> (mapper->model()))->submitAll();
     delete ui;
 
-    mapper->model()->submit();
+
+
 }

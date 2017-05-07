@@ -41,6 +41,7 @@ public:
 
     void getPrimaryTable(QTableView* view,const QString& name);
 
+    QSqlTableModel* getTableModel(const QString& name, QObject* parent = nullptr);
 
 
 
